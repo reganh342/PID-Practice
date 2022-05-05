@@ -6,16 +6,38 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.ControlType;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.SparkMaxPIDController;
+
+import frc.robot.Constants;
+
 public class PIDSubsystem extends SubsystemBase {
-  private int proportional;
-  private int intergal;
-  private int derivative;
+
+  private double proportional;
+  private double integral;
+  private double derivative;
+  private CANSparkMax frontLeftMotor;
+  private SparkMaxPIDController pidController;
+
   /** Creates a new ExampleSubsystem. */
-  public PIDSubsystem(int p,int i,int d) {
-    proportional =p;
-    intergal = i;
-    derivative = d;
+  public PIDSubsystem() {
+    proportional = Constants.P;
+    integral = Constants.I;
+    derivative = Constants.D;
+    frontLeftMotor = new CANSparkMax(0, MotorType.kBrushless);
+    pidController = frontLeftMotor.getPIDController();
+
+    pidController.setP(proportional);
+    pidController.setI(integral);
+    pidController.setD(derivative);
+
   }
+
+  
+
+  
 
   @Override
   public void periodic() {
